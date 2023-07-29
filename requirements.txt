@@ -1,0 +1,7 @@
+streamlit
+edge_tts
+bs4
+lxml
+pymongo
+pytz
+asyncio

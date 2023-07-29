@@ -1,0 +1,22 @@
+import streamlit as st
+import edge_tts
+import asyncio
+
+
+TEXT = """
+뉴스타파와 시민단체 3곳은 오는 31일 윤석열 대통령이 검찰총장 시절에 쓴 특활비와 업추비 자료를 수령할 예정입니다. 현직 대통령의 세금 사용 실태가 어땠을지 반드시 취재와 검증이 필요한 부분입니다. 그 결과물은 약 한 달 뒤, 검찰예산 검증보도 ‘시즌2’를 통해 공개할 계획입니다.
+끝으로 현재 진행 중인 검찰 특활비 문제에 대한 국회 국정조사 및 특검 도입 논의를 위한 청원 사이트 링크를 공유합니다. 우리가 낸 세금을 흥청망청 쓰면서 어떤 감시와 검증도 거부하는 검찰 특활비 제도의 개혁에 동의하신다면 동참해주시기를 부탁드립니다.
+"""
+VOICE = "ko-KR-SunHiNeural"
+OUTPUT_FILE = "test.mp3"
+
+async def amain() -> None:
+    """Main function"""
+    communicate = edge_tts.Communicate(TEXT, VOICE)
+    await communicate.save(OUTPUT_FILE)
+
+    audio_file = open(OUTPUT_FILE,'rb')
+    audio_bytes = audio_file.read()
+    st.audio(audio_bytes, format='audio/ogg')
+
+asyncio.run(amain())
