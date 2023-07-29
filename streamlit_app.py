@@ -25,12 +25,15 @@ async def amain() -> None:
     st.header("edge_tts in streamlit cloud")
 
     gender = st.selectbox("#### TTS 성별 선택", ["male", "female"], index=1)
-    TEXT_inp = st.text_area("#### TTS 문장 입력", value=TEXT, height=20, on_change=create_tts(gender, TEXT_inp))
+    TEXT_inp = st.text_area("#### TTS 문장 입력", value=TEXT, height=20)
 
-    await create_tts(TEXT_inp, gender)
+    if st.button("Submit"):
+        await create_tts(TEXT_inp, gender)
 
-    audio_file = open(OUTPUT_FILE,'rb')
-    audio_bytes = audio_file.read()
-    st.audio(audio_bytes, format='audio/ogg')
+        audio_file = open(OUTPUT_FILE,'rb')
+        audio_bytes = audio_file.read()
+        st.audio(audio_bytes, format='audio/ogg')
+    else:
+        st.write("문장을 입력하신 후 Submit 버튼을 눌러주세요.")
 
 asyncio.run(amain())
