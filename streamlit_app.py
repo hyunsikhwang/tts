@@ -14,15 +14,20 @@ VOICE_dict = {"male": "ko-KR-InJoonNeural",
               "female": "ko-KR-SunHiNeural"}
 
 
+async def create_tts() -> None:
+
+    communicate = edge_tts.Communicate(TEXT_inp, VOICE_dict[gender])
+    await communicate.save(OUTPUT_FILE)
+
+
 async def amain() -> None:
 
     st.header("edge_tts in streamlit cloud")
 
     gender = st.selectbox("#### TTS 성별 선택", ["male", "female"], index=1)
-    TEXT_inp = st.text_area("#### TTS 문장 입력", value=TEXT, height=20)
+    TEXT_inp = st.text_area("#### TTS 문장 입력", value=TEXT, height=20, on_change=create_tts)
 
-    communicate = edge_tts.Communicate(TEXT_inp, VOICE_dict[gender])
-    await communicate.save(OUTPUT_FILE)
+    await create_tts()
 
     audio_file = open(OUTPUT_FILE,'rb')
     audio_bytes = audio_file.read()
