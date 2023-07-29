@@ -25,7 +25,7 @@ async def amain() -> None:
     st.header("edge_tts in streamlit cloud")
 
     gender = st.selectbox("#### TTS 성별 선택", ["male", "female"], index=1)
-    TEXT_inp = st.text_area("#### TTS 문장 입력", value=TEXT, height=20, on_change=create_tts)
+    TEXT_inp = st.text_area("#### TTS 문장 입력", value=TEXT, height=20, on_change=create_tts(gender, TEXT_inp))
 
     await create_tts(TEXT_inp, gender)
 
